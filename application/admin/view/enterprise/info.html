@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="ace ace-card-on ace-tab-nav-on ace-main-nav-on ace-sidebar-on" data-theme-color="#c0e3e7">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{$rs.name} 档案</title>
+    <meta name="description" content="">
+
+    <!-- Icon Fonts -->
+    <link href="__ADMIN__/vitae/fonts/icomoon/style.css" rel="stylesheet">
+
+    <!-- Styles -->
+    <link href="__ADMIN__/vitae/js/plugins/highlight/solarized-light.css" rel="stylesheet">
+    <link href="__ADMIN__/vitae/css/style.css" rel="stylesheet">
+
+    <!-- Modernizer -->
+    <script type="text/javascript" src="__ADMIN__/vitae/js/vendor/modernizr-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="ace-wrapper" style="left: 5%;width: 95%">
+    <header id="ace-header" class="ace-container-shift ace-logo-in ace-head-boxed ace-nav-right">
+        <div class="ace-head-inner">
+            <div class="ace-head-container ace-container">
+                <div class="ace-head-row">
+                </div>
+            </div><!-- .ace-container -->
+        </div><!-- .ace-head-inner -->
+    </header><!-- #ace-header -->
+
+    <div id="ace-content" class="ace-container-shift" style="margin-left: 188px">
+        <div class="ace-container" style="margin-left: 5%">
+            <div id="ace-nav-wrap" class="hidden-sm hidden-xs">
+                <div class="ace-nav-cont">
+                    <div id="ace-nav-scroll">
+                        <nav id="ace-nav" class="ace-nav">
+                            <ul class="clear-list">
+
+                                <li>
+                                    <a href="{:url('info',array('id'=>$rs.id))}" data-tooltip="刷新"><span class="ace-icon"></span>刷新</a>
+                                </li>
+
+                                <li>
+                                    <a href="{:url('add')}" data-tooltip="新增"><span class="ace-icon"></span>新增</a>
+                                </li>
+
+                                <li>
+                                    <a href="{:url('edit',array('id'=>$rs.id))}" data-tooltip="编辑"><span class="ace-icon"></span>编辑</a>
+                                </li>
+
+                                <li>
+                                    <a href="javascript:history.go(-1);" data-tooltip="返回"><span class="ace-icon"></span>返回</a>
+                                </li>
+
+                                <li>
+                                    <a onclick="fullScreen()" id="esc"><span class="ace-icon"></span>全屏</a>
+                                </li>
+
+
+
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <div id="ace-nav-tools" class="hidden">
+                        <span class="ace-icon ace-icon-dots-three-horizontal"></span>
+
+                        <button id="ace-nav-arrow" class="clear-btn">
+                            <span class="ace-icon ace-icon-chevron-thin-down"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="ace-nav-btm"></div>
+            </div><!-- .ace-nav-wrap -->
+
+            <div class="ace-paper-stock">
+                <main class="ace-paper clearfix">
+                    <div class="ace-paper-cont clear-mrg">
+
+                        <!-- START: PAGE CONTENT -->
+                        <div class="padd-box clear-mrg">
+                            <section class="section brd-btm">
+                                <div class="row">
+                                    <div class="col-sm-12 clear-mrg text-box">
+                                        <h2 class="title-lg text-upper">企业档案基本信息</h2>
+                                    </div>
+                                </div>
+                            </section><!-- .section -->
+
+                            <section class="section brd-btm">
+                                <div class="row">
+                                    <div class="col-sm-12 clear-mrg">
+                                        <h2 class="title-thin text-muted">enterprise information</h2>
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">企业名称</dt>
+                                            <dd>{$rs.name}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">企业类型</dt>
+                                            <dd>{$rs.type}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">统一社会信用代码</dt>
+                                            <dd>{$rs.credit_num}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">住所</dt>
+                                            <dd>{$rs.province}{$rs.city}{$rs.county}{$rs.enterprise_full_address}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">法定代表人</dt>
+                                            <dd>{$rs.legal_name}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">成立日期</dt>
+                                            <dd>{$rs.found_time|date="Y-m-d",###}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">经营期限</dt>
+                                            <dd>{$rs.start_time|date="Y-m-d",###}~{$rs.end_time|date="Y-m-d",###}</dd>
+                                        </dl>
+
+                                        {if condition="$rs.customs_code"}
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">企业进出口代码</dt>
+                                            <dd>{$rs.customs_code}</dd>
+                                        </dl>
+                                        {/if}
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">注册资本</dt>
+                                            <dd>{$rs.reg_capital/10000|format_number=0} 万元 ( {$rs.currency} )</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">登记机关</dt>
+                                            <dd>{$rs.enter_organ}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">企业状态</dt>
+                                            <dd>{$rs.status}</dd>
+                                        </dl>
+                                        <dl class="dl-horizontal clear-mrg">
+                                            <dt class="text-upper" style="width: 140px">经营范围</dt>
+                                            <dd>{$rs.business_between}</dd>
+                                        </dl>
+                                    </div><!-- .col-sm-6 -->
+                                </div><!-- .row -->
+                            </section><!-- .section -->
+
+                            {if condition="$goodInfo"}
+                            <section class="section brd-btm">
+                                <div class="row">
+                                    <div class="col-sm-12 clear-mrg text-box">
+                                        <h2 class="title-lg text-upper">企业良好信息</h2>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="section brd-btm">
+                                <div class="padd-box-sm clear-mrg" style="margin-left: 1%;margin-right: 1%">
+                                    <div class="ref-box hreview" style="padding-left: 0px">
+                                        <div class="ref-info">
+                                            {volist name="goodInfo" id="gInfo"}
+                                            <blockquote style="font-size: 14px;max-width:100%">
+
+                                                {if condition="$gInfo.credit_info"}
+                                                <div style="margin: 20px auto">
+                                                    <span style="font-weight: bold">企业信用评级(评价)信息：</span>
+                                                    <span style="margin-left: 5px;line-height: 26px">{$gInfo.credit_info}</span>
+                                                </div>
+                                                {/if}
+                                                {if condition="$gInfo.honor_info"}
+                                                <div style="margin: 20px auto">
+                                                    <span style="font-weight: bold">荣誉(含守合同重用等)信息：</span>
+                                                    <span style="margin-left: 5px;line-height: 26px">{$gInfo.honor_info}</span>
+                                                </div>
+                                                {/if}
+                                                {if condition="$gInfo.social_info"}
+                                                <div style="margin: 20px auto">
+                                                    <span style="font-weight: bold">社会责任信息：</span>
+                                                    <span style="margin-left: 5px;line-height: 26px">{$gInfo.social_info}</span>
+                                                </div>
+                                                {/if}
+                                                {if condition="$gInfo.social_org_info"}
+                                                <div style="margin: 20px auto;">
+                                                    <span style="font-weight: bold">社会组织信用信息：</span>
+                                                    <span style="margin-left: 5px;line-height: 26px">{$gInfo.social_org_info}</span>
+                                                </div>
+                                                {/if}
+
+                                            </blockquote>
+                                            {/volist}
+                                        </div>
+                                    </div><!-- .ref-box -->
+                                </div><!-- .padd-box-sm -->
+                            </section><!-- .section -->
+                            {/if}
+
+                        </div><!-- .padd-box -->
+                        <!-- END: PAGE CONTENT -->
+
+                    </div><!-- .ace-paper-cont -->
+                </main><!-- .ace-paper -->
+            </div><!-- .ace-paper-stock -->
+
+        </div><!-- .ace-container -->
+    </div><!-- #ace-content -->
+
+
+    <!-- Triangle Shapes -->
+    <svg id="ace-bg-shape-1" class="hidden-sm hidden-xs" height="519" width="758">
+        <polygon points="0,455,693,352,173,0,92,0,0,71" style="fill:rgba(40,194,255,0.61);stroke:purple;stroke-width:0; opacity: 0.5"></polygon>
+    </svg>
+
+    <svg id="ace-bg-shape-2" class="hidden-sm hidden-xs" height="536" width="633">
+        <polygon points="0,0,633,0,633,536" style="fill:rgba(21,238,104,0.24);stroke:purple;stroke-width:0"></polygon>
+    </svg>
+</div>
+<script src="__ADMIN__/js/jquery.min.js?v=2.1.4"></script>
+<script src="__PLUS__/layer/layer.js"></script>
+<script>
+    function fullScreen(){
+        var text=document.getElementById("esc").innerText;
+        if(text=="全屏"){
+            document.getElementById("esc").innerHTML="<span class='ace-icon'></span>退出";
+        }
+        if(text=="退出"){
+            document.getElementById("esc").innerHTML="<span class='ace-icon'></span>全屏";
+        }
+        var el = document.documentElement;
+        var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+        if(typeof rfs != "undefined" && rfs) {
+            rfs.call(el);
+        };
+        exitScreen();
+    }
+
+    function exitScreen(){
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+        else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        }
+        else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        }
+        else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+        if(typeof cfs != "undefined" && cfs) {
+            cfs.call(el);
+        }
+    }
+
+</script>
+
+</body>
+</html>

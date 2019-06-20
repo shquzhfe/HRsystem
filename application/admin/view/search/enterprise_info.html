@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{$rs.name}-档案信息-{$web_title}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="__PLUS__/search/css/common.css">
+    <link rel="stylesheet" type="text/css" href="__PLUS__/search/css/style1.css">
+    <link href="__PLUS__/search/css/home.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="__PLUS__/search/css/css.css" rel="stylesheet" type="text/css" media="all" />
+    <script src="__PLUS__/search/js/jquery-1.11.0.min.js"></script>
+    <script src="__PLUS__/search/js/public.js"></script>
+</head>
+<style>
+    .flexbox{
+        width: 10%;
+        max-width: 30px;
+        height: 30px;
+        background:#cccc77;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        text-align: center;
+        padding-left: 5px;
+        float: left;
+    }
+    .flexbox img{
+        width: 100%;
+        max-width: 24px;
+        height: 24px;
+        align-items: center;
+        text-align: center;
+        padding: auto;
+    }
+    .search{
+        border: 1px solid #cacc6d;
+        height: 30px;
+        width: 67%;
+        margin:0 2%;
+        border-radius: 10px;
+        padding: 0 15px;
+    }
+    .btn{
+        width: 15%;
+        height: 24px;
+        line-height: 24px;
+        border-radius: 10px;
+        font-size: 13px;
+        background-color: #318fcc;
+        color: #fff;
+    }
+    .not span{
+        color: #00647b;
+        font-size: 13px;
+    }
+</style>
+<body style="background-color: rgba(255,255,255,1)">
+<div class="projectd_f">
+    <div class="projectd_f_in">
+        <img style="max-width: 360px;max-height: 75px" src="__UPLOADS__/conf/{$logo}">
+    </div>
+</div>
+
+<div class="neirbg_f ">
+    <div class="neirbg_f_in">
+    </div>
+</div>
+
+<div class="zslgxzx_f">
+    <div class="zslgxzx_f_in">
+        <ul>
+            <form action="{:url('index')}" method="post">
+            <li style="width: 100%">
+                <input type="hidden" name="keywords" value="{$keywords}">
+                <input class="btn" type="submit" value="返回">
+                <a style="font-weight: bold;color: #069dc1;font-size: 13px">{$rs.name|subtext=18}</a>
+            </li>
+            </form>
+        </ul>
+    </div>
+</div>
+
+
+<div class="not" style="margin-top:1px;margin-bottom: 26px">
+    <div class="box" style="width: 96%;padding-top: 10px;">
+        <div style="width: 100%;border-radius: 4px;font-size: 14px;border: 1px solid #f1e5c5;padding-bottom: 10px">
+            <b style="font-size: 16px;background-color: #fff3d3;">企业机构信息</b>
+            <div style="padding: 20px 15px;">
+                <span style="line-height: 34px"><strong style="font-size: 14px">机构名称：</strong>   {$rs.name}</span>
+                <span style="line-height: 34px"><strong style="font-size: 14px">企业类型：</strong>   {$rs.type}</span>
+                <span style="line-height: 34px"><strong style="font-size: 14px">信用代码：</strong>   {$rs.credit_num}</span>
+                <span style="line-height: 34px"><strong style="font-size: 14px">成立日期：</strong>   {$rs.found_time|date="Y-m-d",###}</span>
+                <span style="line-height: 34px"><strong style="font-size: 14px">经营期限：</strong>   {$rs.start_time|date="Y-m-d",###}~{$rs.end_time|date="Y-m-d",###}</span>
+                <span style="line-height: 34px"><strong style="font-size: 14px">注册地址：</strong>   {$rs.province}{$rs.city}{$rs.county}{$rs.enterprise_full_address} </span>
+                <span style="line-height: 34px"><strong style="font-size: 14px">企业法人：</strong>   {$rs.legal_name} </span>
+                {if condition="$rs.customs_code"}
+                <span style="line-height: 34px"><strong style="font-size: 14px">海关代码：</strong>   {$rs.customs_code} </span>
+                {/if}
+                <span style="line-height: 34px"><strong style="font-size: 14px">注册资本：</strong>    {$rs.reg_capital/10000|format_number=0} 万元 ( {$rs.currency} )</span>
+                <span style="line-height: 34px"><strong style="font-size: 14px">登记机关：</strong>   {$rs.enter_organ}</span>
+                <span style="line-height: 34px"><strong style="font-size: 14px">企业状态：</strong>   {$rs.status}</span>
+                <span style="line-height: 34px"><strong style="font-size: 14px">经营范围：</strong>   {$rs.business_between}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{if condition="$good_info"}
+<div class="not" style="margin-top: 10px;">
+    <div class="box" style="width: 96%;padding-top: 10px">
+        <div style="width: 100%;border-radius: 4px;font-size: 14px;border: 1px solid #31f1ae;">
+            <b style="font-size: 16px;background-color: #5cffdb;">企业良好信息</b>
+            {volist name="good_info" id="good"}
+            <div style="padding: 10px 15px;">
+                {if condition="$good.credit_info"}
+                <span style="line-height: 34px"><strong style="font-size: 14px">企业信用评级：</strong>   {$good.credit_info}</span>
+                {/if}
+
+                {if condition="$good.honor_info"}
+                <span style="line-height: 34px"><strong style="font-size: 14px">企业荣誉信息：</strong>   {$good.honor_info}</span>
+                {/if}
+
+                {if condition="$good.social_info"}
+                <span style="line-height: 34px"><strong style="font-size: 14px">社会责任信息：</strong>   {$good.social_info}</span>
+                {/if}
+
+                {if condition="$good.social_org_info"}
+                <span style="line-height: 34px"><strong style="font-size: 14px">社会组织信息：</strong>   {$good.social_org_info}</span>
+                {/if}
+            </div>
+            <div style="border-bottom: 1px #b0eada dotted;margin: 0 4%" ></div>
+            {/volist}
+            <div style="margin-bottom: 20px"></div>
+        </div>
+    </div>
+</div>
+{/if}
+
+<div class="zslgxzx_f">
+    <div class="zslgxzx_f_in">
+        <ul>
+            <form action="{:url('index')}" method="post">
+                <li style="width: 100%">
+                    <input type="hidden" name="keywords" value="{$keywords}">
+                    <input class="btn" type="submit" value="返回">
+                    <a style="font-weight: bold;color: #069dc1;font-size: 13px">{$rs.name|subtext=18}</a>
+                </li>
+            </form>
+        </ul>
+    </div>
+</div>
+
+<div style="margin-bottom: 150px"></div>
+<a class="lijitoubiaocx_f" style="padding-top:15px">
+    {$copyright}</br>
+    联系电话：{$web_tel}
+</a>
+</body>
+</html>

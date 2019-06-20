@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑组织</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="__ADMIN__/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__ADMIN__/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="__ADMIN__/css/animate.css" rel="stylesheet">
+    <link href="__ADMIN__/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__ADMIN__/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <!--uploadify文件引入CSS-->
+   <!-- <link rel="stylesheet" type="text/css" href="__PLUS__/uploadify/uploadify.css" />-->
+</head>
+
+<body class="gray-bg">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row m-t-sm">
+                        <div class="col-sm-12">
+                            <div class="panel blank-panel">
+                                <div class="panel-heading">
+
+                                </div>
+
+                                <div class="panel-body">
+                                    <form class="form-horizontal m-t" id="commentForm" method="post" action="" enctype="multipart/form-data">
+                                        <input type="hidden" name="id" value="{$rs.id}">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">上级组织</label>
+                                                    <div class="col-sm-11">
+                                                        <select class="form-control m-b" required="" name="pid">
+                                                            <option value="0">顶级组织</option>
+                                                            {volist name="structure" id="val"}
+                                                            <option {if condition="$rs.pid eq $val.id"} selected="selected" {/if} value="{$val.id}"><?php echo str_repeat(' ∷ ',$val['level']*1);  ?>{$val.typename}</option>
+                                                            {/volist}
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">组织名称</label>
+                                                    <div class="col-sm-11">
+                                                        <input  name="typename" value="{$rs.typename}" minlength="1" maxlength="20" type="text" class="form-control " required="" aria-required="true">
+                                                    </div>
+                                                </div>
+
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 col-sm-offset-1">
+                                                <button class="btn btn-primary" type="submit" >保存</button>
+                                                <button style="margin-left: 15px;" class="btn btn-default" type="reset" >重置</button>
+                                                <a style="margin-left: 15px;" class="btn btn-info" href="{:url('lists')}">返回</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="__ADMIN__/js/jquery.min.js?v=2.1.4"></script>
+<script src="__ADMIN__/js/bootstrap.min.js?v=3.3.6"></script>
+<!-- 自定义js -->
+<script src="__ADMIN__/js/content.js?v=1.0.0"></script>
+
+<!-- jQuery Validation plugin javascript-->
+<script src="__ADMIN__/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="__ADMIN__/js/plugins/validate/messages_zh.min.js"></script>
+
+<script src="__ADMIN__/js/demo/form-validate-demo.js"></script>
+
+
+<!--百度编辑器-->
+<!-- 配置文件 -->
+<script type="text/javascript" src="__PLUS__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PLUS__/ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('container',{initialFrameHeight:400});
+    toolbars: [
+        ['fullscreen', 'source', 'undo', 'redo'],
+        ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
+    ]
+</script>
+<!--uploadify文件引入js-->
+<script type="text/javascript" src="__PLUS__/uploadify/jquery.uploadify.min.js"></script>
+<!-- layer -->
+<script src="__PLUS__/layer/layer.js"></script>
+<script type="text/javascript">
+    //控制点击链接处是否显示link外部链接
+    $ck=$("input[name=c_attr]:checked").val();
+    if($ck==3){
+        $("#link_div").show();
+    }else{
+        $("#link_div").hide();
+    }
+    //当加载后点击按钮发生改变的时候在做判断是否显示与隐藏link外部链接
+    $(document).ready(function(){
+        $("#hide").click(function(){
+            $("#link_div").hide();
+        });
+        $("#hides").click(function(){
+            $("#link_div").hide();
+        });
+        $("#show").click(function(){
+            $("#link_div").show();
+        });
+    });
+    //上传文件
+    $(function() {
+        $('#file_upload').uploadify({
+            'swf'      : '__PLUS__/uploadify/uploadify.swf',
+            'uploader' : '{:url("Structure/upimg")}',
+            'progressData':'speed',
+            'buttonText':'上传文件',
+            'buttonClass':'fa fa-upload btn-sm btn btn-danger ',
+            //允许上传的文件
+            'fileTpyeDesc':'Image Files',
+            //设定发送数据的name值
+            'fileObjName':'img',
+            'onUploadSuccess':function(file,data,response){
+                $("input[name='img']").val(data);
+                var structure="__UPLOADS__/structure/"+data;
+                var structureSrc="<img src='"+structure+"' height='100' width='100'>";
+                //显示img_div
+                $("#img_div").show();
+                $("#structure_img").html(structureSrc);
+            }
+        });
+        $("#file_upload-button").removeAttr('style');
+    });
+    //撤销图片
+    function delimg() {
+        /*var structure_img=$("#structure_img").find("img");
+         var imgSrc=structure_img.attr("src");*/
+        var structureId={$rs.id};
+        var imgSrc=$("input[name='img']").val();
+        if(!imgSrc){
+            layer.msg(' 请先上传图片！', {icon: 2});
+            return false;
+        }
+        layer.confirm(' 您确定还要撤销该图片吗？', {
+            btn: ['确定','取消'],//按钮
+            icon: 3,
+            /*skin: 'layui-layer-molv',//样式*/
+            closeBtn: 0,//取消关闭按钮
+            title:'确定将会删除图片及清空数据库表的值！',//设置标题，为0则关闭标题
+            anim: 4,//动画类型
+            time:10000, //10秒后不操作自动关闭
+        }, function(){
+            $("#img_div").hide();
+            $("input[name='img']").val('');
+            $.ajax({
+                type:"post",
+                dataType:"json",
+                data:{imgSrc:imgSrc,structureId:structureId},
+                url:"{:url('Structure/delimg')}",
+                success:function(data){
+                    if(data){
+                        layer.msg(' 撤销图片成功！', {icon: 6});
+                    }else{
+                        layer.msg(' 撤销图片失败！', {icon: 2});
+                    }
+                }
+            });
+        },function(){
+            layer.msg(' 您取消了当前操作！', {icon: 5});
+        });
+
+    }
+
+    $("select[name=pid]").change(function(){
+        changeTemplate();
+    });
+</script>
+
+
+</body>
+
+</html>

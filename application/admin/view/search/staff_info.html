@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{$rs.name}-资料-{$web_title}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="__PLUS__/search/css/common.css">
+    <link rel="stylesheet" type="text/css" href="__PLUS__/search/css/style1.css">
+    <link href="__PLUS__/search/css/home.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="__PLUS__/search/css/css.css" rel="stylesheet" type="text/css" media="all" />
+    <script src="__PLUS__/search/js/jquery-1.11.0.min.js"></script>
+    <script src="__PLUS__/search/js/public.js"></script>
+</head>
+<style>
+    .flexbox{
+        width: 100%;
+        max-width: 150px;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .flexbox img{
+        width: 100%;
+        max-width: 150px;
+        height: 150px;
+        align-items: center;
+        text-align: center;
+        padding: auto;
+        border-radius: 50%;
+    }
+    .btn{
+        height: 24px;
+        line-height: 24px;
+        border-radius: 10px;
+        font-size: 13px;
+        background:none;
+        color: #808080;
+    }
+    .training_img img{
+        width: 100%;
+    }
+</style>
+<!--top-->
+<body style="background-color: #fff">
+<div class="top" style="height: 80px;line-height: 80px;background-color: #069dc1;">
+    <div class="box" style="margin-top: 10px">
+        <img style="max-width: 360px;max-height: 75px" src="__UPLOADS__/conf/{$logo}">
+    </div>
+</div>
+
+<div class="nav" style="margin-top: 36px;height: 45px;line-height: 45px;padding-top: 16px;z-index: 1000">
+    <span class="cl_nav cl_n1" style="color:#069dc1;width:25%;">基本信息</span>
+    <span class="cl_nav cl_n2" style="width:25%;">培训记录</span>
+    <span class="cl_nav cl_n3" style="width:25%;">服务评价</span>
+    {if condition="$key"}
+    <span class="cl_nav cl_n4" style="width:25%;">
+        <a href="{:url('index')}">回到主页</a>
+    </span>
+    {else/}
+    <span class="cl_nav cl_n4" style="width:25%;">
+         <form action="{:url('staff')}" method="post">
+            <input type="hidden" name="keywords" value="{$keywords}">
+            <input class="btn" type="submit" value="返回查询">
+         </form>
+    </span>
+    {/if}
+</div>
+
+
+<div class="cl_list cl_l1" style="margin-top: 150px;">
+    <div class="list" style="border:none">
+        <ul class="yiji">
+            <li style="border: none">
+                <a class="inactive" style="background-image:none;background-color:#007d93;height:600px;padding:0;border-radius: 10px">
+                    <div class="box" style="color: #f8f8f8">
+                        <div class="flexbox" style="padding-top: 25px;margin: 0 auto">
+                            {if condition="$rs.photo"}
+                            <img onclick="bigImg(this)" id="photo" src="__UPLOADS__/photos/{$rs.photo}"  alt="">
+                            {else/}
+                                {if condition="$rs.gender eq 1"}
+                                    <img src="__PLUS__/icon/boy.png"  alt="">
+                                {else/}
+                                    <img src="__PLUS__/icon/girl.png"  alt="">
+                                {/if}
+                            {/if}
+                        </div>
+                        <div style="text-align: center;margin-top: 15px;font-weight: bold;font-size: 20px">{$rs.name}
+                            <dv style="font-size: 16px">{if condition="$rs.gender eq 1"} ( 先生 ){else/} ( 女士 ){/if}</dv>
+                        </div>
+                        <div style="text-align: center;font-weight: bold">身份证号码：{$rs.id_card}</div>
+                        <div style="border-bottom: 2px solid #f8f8f8;margin-top: 20px"></div>
+                        <div style="margin-top: 20px">
+                            <div style="width: 50%;float: left">
+                                <span style="width: 38%;font-weight: bold;font-size: 14px;color: #F8F8F8">出生日期</span>
+                                <span style="width: 62%;font-size: 14px;color: #fff">{$rs.birthday|date="Y-m-d",###}</span>
+                            </div>
+                            <div style="width: 50%;float: right">
+                                <span style="width: 38%;font-weight: bold;font-size: 14px;color: #F8F8F8">联系电话</span>
+                                <span style="width: 62%;font-size: 14px;color: #fff">{$rs.tel}</span>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <div style="width: 50%;float: left">
+                                <span style="width: 38%;font-weight: bold;font-size: 14px;color: #F8F8F8">政治面貌</span>
+                                <span style="width: 62%;font-size: 14px;color: #F8F8F8">{$rs.political}</span>
+                            </div>
+                            <div style="width: 50%;float: right">
+                                <span style="width: 38%;font-weight: bold;font-size: 14px;color: #F8F8F8">最高学历</span>
+                                <span style="width: 62%;font-size: 14px;color: #F8F8F8">{$rs.education}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="width: 100%;float: left">
+                                <span style="width: 19%;font-weight: bold;font-size: 14px;color: #F8F8F8">担任职务</span>
+                                <span style="width: 81%;font-size: 14px;color: #F8F8F8">{$rs.business}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="width: 100%;float: left">
+                                <span style="width: 19%;font-weight: bold;font-size: 14px;color: #F8F8F8">所在机构</span>
+                                <span style="width: 81%;font-size: 14px;color: #F8F8F8">{$rs.institution}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="width: 100%;">
+                                <span style="width: 19%;font-weight: bold;font-size: 14px;color: #F8F8F8">身体状况</span>
+                                <span style="width: 81%;font-size: 14px;color: #f8f8f8">{$rs.health}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="width: 100%;">
+                                <span style="width: 19%;font-weight: bold;font-size: 14px;color: #F8F8F8">社会关系</span>
+                                <span style="width: 81%;font-size: 14px;color: #f8f8f8">{$rs.gam}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="width: 100%;">
+                                <span style="width: 19%;font-weight: bold;font-size: 14px;color: #F8F8F8">户籍地址</span>
+                                <span style="width: 81%;font-size: 14px;color: #f8f8f8">{$rs.province}{$rs.city}{$rs.county}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </a>
+
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="cl_list cl_l2" style="margin-top: 150px;">
+    <div class="list" style="border:none">
+        <ul class="yiji">
+            <li style="border: none">
+                {if condition="$training_record"}
+                    {volist name="training_record" id="training"}
+                    <div style="font-size: 14px;line-height: 30px;margin: 0 4%">
+                    {if condition="$training.training_info"}
+                        <div class="training_img">{$training.training_info}</div>
+                    {/if}
+                    </div>
+                    <div style="border-bottom: 1px #eeeeee dotted;margin: 20px"></div>
+                    {/volist}
+                {else/}
+                    <div style="text-align: center;color: #b4b4b4;margin-top: 20px;font-size: 14px">暂无培训记录</div>
+                {/if}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="cl_list cl_l3" style="margin-top: 150px;">
+    <div class="list" style="border:none">
+        <ul class="yiji">
+            <li style="border: none">
+                {if condition="$service_evaluation"}
+                {volist name="service_evaluation" id="services"}
+                <div style="font-size: 14px;line-height: 40px;margin: 0 4%">
+                    {if condition="$services.content"}
+                    <div>{$key+1}、<dv style="font-weight: bold">评价内容：</dv>{$services.content}</div>
+                    {/if}
+                    {if condition="$services.sanctions"}
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<dv style="font-weight: bold">奖惩记录：</dv>{$services.sanctions}</div>
+                    {/if}
+                    {if condition="$services.score"}
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<dv style="font-weight: bold">获得评分：</dv>{$services.score}</div>
+                    {/if}
+                </div>
+                <div style="border-bottom: 1px #eeeeee dotted;margin: 20px"></div>
+                {/volist}
+                {else/}
+                <div style="text-align: center;color: #b4b4b4;margin-top: 20px;font-size: 14px">暂无服务评价记录</div>
+                {/if}
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<div style="margin-bottom: 76px"></div>
+<a class="lijitoubiaocx_f" style="padding-top:15px">
+    {$copyright}</br>
+    联系电话：{$web_tel}
+</a>
+<script type="text/javascript" src="__PLUS__/search/js/index.js"></script>
+<script src="__ADMIN__/js/jquery.min.js?v=2.1.4"></script>
+<script src="__PLUS__/layer/layer.js"></script>
+<script>
+    function bigImg(obj){
+        var src=$(obj).attr("src");
+        layer.open({
+            type: 1,
+            title:false,
+            shadeClose: true,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['80%', '50%'], //宽高
+            content: '<img src="'+src+'" width="100%" alt="">'
+        });
+    }
+   
+</script>
+</body>
+</html>

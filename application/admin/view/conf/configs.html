@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>配置列表</title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__ADMIN__/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__ADMIN__/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="__ADMIN__/css/animate.css" rel="stylesheet">
+    <link href="__ADMIN__/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__ADMIN__/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="wrapper wrapper-content animated fadeInUp">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <div class="row m-t-sm">
+                            <div class="col-sm-12">
+                                <div class="panel blank-panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-options">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a  href="#tab-1" data-toggle="tab">基本信息</a></li>
+                                                <li class=""><a href="#tab-2" data-toggle="tab">联系方式</a></li>
+                                                <li class=""><a href="#tab-3" data-toggle="tab">SEO配置</a></li>
+                                                <li class=""><a href="#tab-4" data-toggle="tab">扩展配置</a></li>
+                                                <li class=""><a href="#tab-5" data-toggle="tab">核心配置</a></li>
+                                                <li class=""><a href="#tab-6" data-toggle="tab">插件配置</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <form method="post" class="form-horizontal" action="" enctype="multipart/form-data">
+
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="tab-1">
+                                                    {volist name="configs" id="val"}
+                                                    {if condition="$val['set_lists'] eq 1"}
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">{$val.zh_name}</label>
+                                                                <div class="col-sm-10">
+                                                                    {if condition="$val['set_type'] eq 1"}
+                                                                    <input type="text" name="{$val.en_name}" value="{$val.value}" class="form-control">
+                                                                    {elseif condition="$val['set_type'] eq 2"/}
+                                                                    <?php $opt=explode(',',$val['optional']);
+                                                                foreach($opt as $op):
+                                                                ?>
+                                                                    <div class="col-sm-1 radio radio-danger" style="float: left; ">
+                                                                        <input type="radio" name="{$val.en_name}"  value="{$op}" <?php if($val['value']==$op): ?> checked="checked" <?php endif ?>>
+                                                                        <label  >
+                                                                            {$op}
+                                                                        </label>
+                                                                    </div>
+                                                                    <?php endforeach; ?>
+
+                                                                    {elseif condition="$val['set_type'] eq 3"/}
+                                                                    <?php
+                                                                    $opt=explode(',',$val['optional']);
+                                                                    $values=explode(',',$val['value']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                                        <div class="checkbox checkbox-success checkbox-inline">
+                                                                            <input  type="checkbox" name="{$val.en_name}[]"  value="{$op}" <?php if(in_array($op,$values)){ echo "checked='chenked'"; } ?>>
+                                                                            <label > {$op} </label>
+                                                                        </div>
+                                                                    <?php endforeach; ?>
+                                                                    {elseif condition="$val['set_type'] eq 4"/}
+                                                                    <select class="form-control m-b" required=""  name="{$val.en_name}">
+                                                                        <?php $opt=explode(',',$val['optional']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                                        <option value="{$op}" <?php if($val['value']==$op): ?> selected="selected" <?php endif ?> >{$op}</option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                    {elseif condition="$val['set_type'] eq 5"/}
+                                                                    <textarea  name="{$val.en_name}"  class="form-control" aria-required="true">{$val.value}</textarea>
+                                                                    {elseif condition="$val['set_type'] eq 6"/}
+                                                                    {if condition="$val['value'] neq ''"}
+                                                                    <div class="form-group">
+                                                                        <img src="__UPLOADS__/conf/{$val['value']}" width="120" height="70" alt="{$val.zh_name}">
+                                                                    </div>
+                                                                    {/if}
+                                                                    <div class="form-group">
+                                                                        <input type="file" name="{$val.en_name}" class="form-control">
+                                                                    </div>
+                                                                    {/if}
+                                                                </div>
+                                                            </div>
+                                                        {/if}
+                                                    {/volist}
+
+                                                </div>
+                                                <div class="tab-pane" id="tab-2">
+
+                                                    {volist name="configs" id="val"}
+                                                        {if condition="$val['set_lists'] eq 2"}
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">{$val.zh_name}</label>
+                                                                <div class="col-sm-10">
+                                                                    {if condition="$val['set_type'] eq 1"}
+                                                                    <input type="text" name="{$val.en_name}" value="{$val.value}" class="form-control">
+                                                                    {elseif condition="$val['set_type'] eq 2"/}
+                                                                    <?php $opt=explode(',',$val['optional']);
+                                                                foreach($opt as $op):
+                                                                ?>
+                                                                    <div class="col-sm-1 radio radio-danger" style="float: left; ">
+                                                                        <input type="radio" name="{$val.en_name}"  value="{$op}" <?php if($val['value']==$op): ?> checked="checked" <?php endif ?>>
+                                                                        <label  >
+                                                                            {$op}
+                                                                        </label>
+                                                                    </div>
+                                                                    <?php endforeach; ?>
+
+                                                                    {elseif condition="$val['set_type'] eq 3"/}
+                                                                    <?php
+                                                                    $opt=explode(',',$val['optional']);
+                                                                    $values=explode(',',$val['value']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                                    <div class="checkbox checkbox-success checkbox-inline">
+                                                                        <input  type="checkbox" name="{$val.en_name}[]"  value="{$op}" <?php if(in_array($op,$values)){ echo "checked='chenked'"; } ?>>
+                                                                        <label > {$op} </label>
+                                                                    </div>
+                                                                    <?php endforeach; ?>
+                                                                    {elseif condition="$val['set_type'] eq 4"/}
+                                                                    <select class="form-control m-b" required=""  name="{$val.en_name}">
+                                                                        <?php $opt=explode(',',$val['optional']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                                        <option value="{$op}" <?php if($val['value']==$op): ?> selected="selected" <?php endif ?> >{$op}</option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                    {elseif condition="$val['set_type'] eq 5"/}
+                                                                    <textarea  name="{$val.en_name}"  class="form-control" aria-required="true">{$val.value}</textarea>
+                                                                    {elseif condition="$val['set_type'] eq 6"/}
+                                                                    {if condition="$val['value'] neq ''"}
+                                                                    <div class="form-group">
+                                                                        <img src="__UPLOADS__/conf/{$val['value']}" width="120" height="70" alt="{$val.zh_name}">
+                                                                    </div>
+                                                                    {/if}
+                                                                    <div class="form-group">
+                                                                        <input type="file" name="{$val.en_name}" class="form-control">
+                                                                    </div>
+                                                                    {/if}
+                                                                </div>
+                                                            </div>
+                                                        {/if}
+                                                    {/volist}
+
+                                                </div>
+
+                                                <div class="tab-pane" id="tab-3">
+
+                                                    {volist name="configs" id="val"}
+                                                        {if condition="$val['set_lists'] eq 3"}
+                                                            <div class="form-group">
+                                                                <label class="col-sm-2 control-label">{$val.zh_name}</label>
+                                                                <div class="col-sm-10">
+                                                                    {if condition="$val['set_type'] eq 1"}
+                                                                    <input type="text" name="{$val.en_name}" value="{$val.value}" class="form-control">
+                                                                    {elseif condition="$val['set_type'] eq 2"/}
+                                                                    <?php $opt=explode(',',$val['optional']);
+                                                                foreach($opt as $op):
+                                                                ?>
+                                                                    <div class="col-sm-1 radio radio-danger" style="float: left; ">
+                                                                        <input type="radio" name="{$val.en_name}"  value="{$op}" <?php if($val['value']==$op): ?> checked="checked" <?php endif ?>>
+                                                                        <label  >
+                                                                            {$op}
+                                                                        </label>
+                                                                    </div>
+                                                                    <?php endforeach; ?>
+
+                                                                    {elseif condition="$val['set_type'] eq 3"/}
+                                                                    <?php
+                                                                    $opt=explode(',',$val['optional']);
+                                                                    $values=explode(',',$val['value']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                                    <div class="checkbox checkbox-success checkbox-inline">
+                                                                        <input  type="checkbox" name="{$val.en_name}[]"  value="{$op}" <?php if(in_array($op,$values)){ echo "checked='chenked'"; } ?>>
+                                                                        <label > {$op} </label>
+                                                                    </div>
+                                                                    <?php endforeach; ?>
+                                                                    {elseif condition="$val['set_type'] eq 4"/}
+                                                                    <select class="form-control m-b" required=""  name="{$val.en_name}">
+                                                                        <?php $opt=explode(',',$val['optional']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                                        <option value="{$op}" <?php if($val['value']==$op): ?> selected="selected" <?php endif ?> >{$op}</option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                    {elseif condition="$val['set_type'] eq 5"/}
+                                                                    <textarea  name="{$val.en_name}"  class="form-control" aria-required="true">{$val.value}</textarea>
+                                                                    {elseif condition="$val['set_type'] eq 6"/}
+                                                                    {if condition="$val['value'] neq ''"}
+                                                                    <div class="form-group">
+                                                                        <img src="__UPLOADS__/conf/{$val['value']}" width="120" height="70" alt="{$val.zh_name}">
+                                                                    </div>
+                                                                    {/if}
+                                                                    <div class="form-group">
+                                                                        <input type="file" name="{$val.en_name}" class="form-control">
+                                                                    </div>
+                                                                    {/if}
+                                                                </div>
+                                                            </div>
+                                                        {/if}
+                                                    {/volist}
+
+                                                </div>
+
+                                                <div class="tab-pane" id="tab-4">
+
+                                                    {volist name="configs" id="val"}
+                                                    {if condition="$val['set_lists'] eq 4"}
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">{$val.zh_name}</label>
+                                                        <div class="col-sm-10">
+                                                            {if condition="$val['set_type'] eq 1"}
+                                                            <input type="text" name="{$val.en_name}" value="{$val.value}" class="form-control">
+                                                            {elseif condition="$val['set_type'] eq 2"/}
+                                                            <?php $opt=explode(',',$val['optional']);
+                                                                foreach($opt as $op):
+                                                                ?>
+                                                            <div class="col-sm-1 radio radio-danger" style="float: left; ">
+                                                                <input type="radio" name="{$val.en_name}"  value="{$op}" <?php if($val['value']==$op): ?> checked="checked" <?php endif ?>>
+                                                                <label  >
+                                                                    {$op}
+                                                                </label>
+                                                            </div>
+                                                            <?php endforeach; ?>
+
+                                                            {elseif condition="$val['set_type'] eq 3"/}
+                                                            <?php
+                                                                    $opt=explode(',',$val['optional']);
+                                                                    $values=explode(',',$val['value']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                            <div class="checkbox checkbox-success checkbox-inline">
+                                                                <input  type="checkbox" name="{$val.en_name}[]"  value="{$op}" <?php if(in_array($op,$values)){ echo "checked='chenked'"; } ?>>
+                                                                <label > {$op} </label>
+                                                            </div>
+                                                            <?php endforeach; ?>
+                                                            {elseif condition="$val['set_type'] eq 4"/}
+                                                            <select class="form-control m-b" required=""  name="{$val.en_name}">
+                                                                <?php $opt=explode(',',$val['optional']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                                <option value="{$op}" <?php if($val['value']==$op): ?> selected="selected" <?php endif ?> >{$op}</option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                            {elseif condition="$val['set_type'] eq 5"/}
+                                                            <textarea  name="{$val.en_name}"  class="form-control" aria-required="true">{$val.value}</textarea>
+                                                            {elseif condition="$val['set_type'] eq 6"/}
+                                                            {if condition="$val['value'] neq ''"}
+                                                            <div class="form-group">
+                                                                <img src="__UPLOADS__/conf/{$val['value']}" width="120" height="70" alt="{$val.zh_name}">
+                                                            </div>
+                                                            {/if}
+                                                            <div class="form-group">
+                                                                <input type="file" name="{$val.en_name}" class="form-control">
+                                                            </div>
+                                                            {/if}
+                                                        </div>
+                                                    </div>
+                                                    {/if}
+                                                    {/volist}
+
+                                                </div>
+
+                                                <div class="tab-pane" id="tab-5">
+
+                                                    {volist name="configs" id="val"}
+                                                    {if condition="$val['set_lists'] eq 5"}
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">{$val.zh_name}</label>
+                                                        <div class="col-sm-10">
+                                                            {if condition="$val['set_type'] eq 1"}
+                                                            <input type="text" name="{$val.en_name}" value="{$val.value}" class="form-control">
+                                                            {elseif condition="$val['set_type'] eq 2"/}
+                                                            <?php $opt=explode(',',$val['optional']);
+                                                                foreach($opt as $op):
+                                                                ?>
+                                                            <div class="col-sm-1 radio radio-danger" style="float: left; ">
+                                                                <input type="radio" name="{$val.en_name}"  value="{$op}" <?php if($val['value']==$op): ?> checked="checked" <?php endif ?>>
+                                                                <label  >
+                                                                    {$op}
+                                                                </label>
+                                                            </div>
+                                                            <?php endforeach; ?>
+
+                                                            {elseif condition="$val['set_type'] eq 3"/}
+                                                            <?php
+                                                                    $opt=explode(',',$val['optional']);
+                                                                    $values=explode(',',$val['value']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                            <div class="checkbox checkbox-success checkbox-inline">
+                                                                <input  type="checkbox" name="{$val.en_name}[]"  value="{$op}" <?php if(in_array($op,$values)){ echo "checked='chenked'"; } ?>>
+                                                                <label > {$op} </label>
+                                                            </div>
+                                                            <?php endforeach; ?>
+                                                            {elseif condition="$val['set_type'] eq 4"/}
+                                                            <select class="form-control m-b" required=""  name="{$val.en_name}">
+                                                                <?php $opt=explode(',',$val['optional']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                                <option value="{$op}" <?php if($val['value']==$op): ?> selected="selected" <?php endif ?> >{$op}</option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                            {elseif condition="$val['set_type'] eq 5"/}
+                                                            <textarea  name="{$val.en_name}"  class="form-control" aria-required="true">{$val.value}</textarea>
+                                                            {elseif condition="$val['set_type'] eq 6"/}
+                                                            {if condition="$val['value'] neq ''"}
+                                                            <div class="form-group">
+                                                                <img src="__UPLOADS__/conf/{$val['value']}" width="120" height="70" alt="{$val.zh_name}">
+                                                            </div>
+                                                            {/if}
+                                                            <div class="form-group">
+                                                                <input type="file" name="{$val.en_name}" class="form-control">
+                                                            </div>
+                                                            {/if}
+                                                        </div>
+                                                    </div>
+                                                    {/if}
+                                                    {/volist}
+
+                                                </div>
+
+                                                <div class="tab-pane" id="tab-6">
+
+                                                    {volist name="configs" id="val"}
+                                                    {if condition="$val['set_lists'] eq 6"}
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">{$val.zh_name}</label>
+                                                        <div class="col-sm-10">
+                                                            {if condition="$val['set_type'] eq 1"}
+                                                            <input type="text" name="{$val.en_name}" value="{$val.value}" class="form-control">
+                                                            {elseif condition="$val['set_type'] eq 2"/}
+                                                            <?php $opt=explode(',',$val['optional']);
+                                                                foreach($opt as $op):
+                                                                ?>
+                                                            <div class="col-sm-1 radio radio-danger" style="float: left; ">
+                                                                <input type="radio" name="{$val.en_name}"  value="{$op}" <?php if($val['value']==$op): ?> checked="checked" <?php endif ?>>
+                                                                <label  >
+                                                                    {$op}
+                                                                </label>
+                                                            </div>
+                                                            <?php endforeach; ?>
+
+                                                            {elseif condition="$val['set_type'] eq 3"/}
+                                                            <?php
+                                                                    $opt=explode(',',$val['optional']);
+                                                                    $values=explode(',',$val['value']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                            <div class="checkbox checkbox-success checkbox-inline">
+                                                                <input  type="checkbox" name="{$val.en_name}[]"  value="{$op}" <?php if(in_array($op,$values)){ echo "checked='chenked'"; } ?>>
+                                                                <label > {$op} </label>
+                                                            </div>
+                                                            <?php endforeach; ?>
+                                                            {elseif condition="$val['set_type'] eq 4"/}
+                                                            <select class="form-control m-b" required=""  name="{$val.en_name}">
+                                                                <?php $opt=explode(',',$val['optional']);
+                                                                    foreach($opt as $op):
+                                                                    ?>
+                                                                <option value="{$op}" <?php if($val['value']==$op): ?> selected="selected" <?php endif ?> >{$op}</option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                            {elseif condition="$val['set_type'] eq 5"/}
+                                                            <textarea  name="{$val.en_name}"  class="form-control" aria-required="true">{$val.value}</textarea>
+                                                            {elseif condition="$val['set_type'] eq 6"/}
+                                                            {if condition="$val['value'] neq ''"}
+                                                            <div class="form-group">
+                                                                <img src="__UPLOADS__/conf/{$val['value']}" width="120" height="70" alt="{$val.zh_name}">
+                                                            </div>
+                                                            {/if}
+                                                            <div class="form-group">
+                                                                <input type="file" name="{$val.en_name}" class="form-control">
+                                                            </div>
+                                                            {/if}
+                                                        </div>
+                                                    </div>
+                                                    {/if}
+                                                    {/volist}
+
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3 col-sm-offset-2">
+                                                    <button class="btn btn-primary" type="submit" >保存</button>
+                                                    <button style="margin-left: 15px;" class="btn btn-default" type="reset" >重置</button>
+                                                    <a style="margin-left: 15px;" class="btn btn-info" href="{:url('lists')}">返回</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="__ADMIN__/js/jquery.min.js?v=2.1.4"></script>
+    <script src="__ADMIN__/js/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 自定义js -->
+    <script src="__ADMIN__/js/content.js?v=1.0.0"></script>
+</body>
+
+</html>

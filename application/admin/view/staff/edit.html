@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑员工</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link href="__ADMIN__/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__ADMIN__/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="__ADMIN__/css/animate.css" rel="stylesheet">
+    <link href="__ADMIN__/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__ADMIN__/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <!-- 全局js -->
+    <script src="__ADMIN__/js/jquery.min.js?v=2.1.4"></script>
+    <script src="__ADMIN__/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__PLUS__/bootstrap-prettyfile/bootstrap-prettyfile.js"></script>
+    <!-- 配置文件 -->
+    <script type="text/javascript" src="__PLUS__/ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="__PLUS__/ueditor/ueditor.all.js"></script>
+    <!-- 实例化编辑器 -->
+
+</head>
+<style>
+    .gh{
+        display: inline-block;
+        background-color: #015eff;
+        height: 30px;
+        width: 90px;
+        line-height: 30px;
+        text-align: center;
+        color: floralwhite;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+
+<body class="gray-bg">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row m-t-sm">
+                        <div class="col-sm-12">
+                            <div class="panel blank-panel">
+                                <div class="panel-heading">
+                                    <div class="panel-options">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a  href="#tab-1" data-toggle="tab">基本信息</a></li>
+                                            <li class=""><a href="#tab-2" data-toggle="tab">培训记录</a></li>
+                                            <li class=""><a href="#tab-3" data-toggle="tab">服务评价</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <form class="form-horizontal m-t" id="commentForm" method="post" action="" enctype="multipart/form-data">
+                                        <input type="hidden" value="{$rs.id}" name="id">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">员工姓名：</label>
+                                                    <div class="col-sm-3">
+                                                        <input  name="name" value="{$rs.name}" type="text" minlength="2" maxlength="15" class="form-control " required="" aria-required="true">
+                                                    </div>
+                                                    <label class="col-sm-1 control-label">员工性别：</label>
+                                                    <div class="col-sm-3">
+                                                        <div class="col-sm-3 radio radio-danger" style="float: left; ">
+                                                            <input id="positionl" name="gender"  value="1" type="radio" required="" {if condition="$rs.gender eq 1"} checked="checked" {/if}>
+                                                            <label>
+                                                                先生
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-sm-3 radio radio-success" style="float: left; ">
+                                                            <input id="positionr" name="gender" value="2" type="radio" required="" {if condition="$rs.gender eq 2"} checked="checked" {/if}>
+                                                            <label>
+                                                                女士
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">出生日期：</label>
+                                                    <div class="col-sm-3">
+                                                        <input id="time" name="birthday" value="{$rs.birthday|date='Y-m-d',###}" class="laydate-icon form-control layer-date" required="" aria-required="true" autocomplete="off">
+                                                    </div>
+                                                    <label class="col-sm-1 control-label">身份证号：</label>
+                                                    <div class="col-sm-3">
+                                                        <input  name="id_card" value="{$rs.id_card}" type="text" minlength="15" maxlength="18" class="form-control " required="" aria-required="true">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">联系电话：</label>
+                                                    <div class="col-sm-3">
+                                                        <input  name="tel" value="{$rs.tel}" type="text" minlength="8" maxlength="15" class="form-control " required="" aria-required="true">
+                                                    </div>
+                                                    <label class="col-sm-1 control-label">政治面貌：</label>
+                                                    <div class="col-sm-3">
+                                                        <input  name="political" value="{$rs.political}" type="text" minlength="2" maxlength="15" class="form-control " required="" aria-required="true">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">学历信息：</label>
+                                                    <div class="col-sm-3">
+                                                        <input  name="education" value="{$rs.education}" type="text" minlength="2" maxlength="15" class="form-control " required="" aria-required="true">
+                                                    </div>
+                                                    <label class="col-sm-1 control-label">所在机构：</label>
+                                                    <div class="col-sm-3">
+                                                        <input  name="institution" value="{$rs.institution}" type="text" minlength="2" maxlength="35" class="form-control " required="" aria-required="true">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">职务：</label>
+                                                    <div class="col-sm-3">
+                                                        <input  name="business" value="{$rs.business}" type="text" minlength="2" maxlength="15" class="form-control " required="" aria-required="true">
+                                                    </div>
+                                                    <label class="col-sm-1 control-label">健康状况：</label>
+                                                    <div class="col-sm-3">
+                                                        <input  name="health" value="{$rs.health}" type="text" minlength="2" maxlength="30" class="form-control " required="" aria-required="true">
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">新形象照：</label>
+                                                    <div class="col-sm-3">
+                                                        <input  name="photo" type="file" class="form-control " aria-required="true">
+                                                    </div>
+                                                    <label class="col-sm-1 control-label">社会关系：</label>
+                                                    <div class="col-sm-3">
+                                                        <input  name="gam" value="{$rs.gam}" type="text" minlength="2" maxlength="50" class="form-control " required="" aria-required="true">
+                                                    </div>
+
+                                                </div>
+
+                                                {if condition="$rs.photo"}
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">原形象照：</label>
+                                                    <div class="col-sm-3">
+                                                        <img src="__UPLOADS__/photos/{$rs.photo}" height="100" alt="">
+                                                    </div>
+                                                </div>
+                                                {/if}
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">籍贯：</label>
+                                                    <div class="col-sm-2">
+                                                        <select id="province" name="native_province" class="form-control m-b help-block m-b-none" required="" aria-required="true">
+                                                            <option value="">请选择省份</option>
+                                                            {volist name="provinceRes" id="provinces"}
+                                                            <option {if condition="$rs.native_province eq $provinces.id" } selected="selected" {/if} value="{$provinces.id}">{$provinces.name}</option>
+                                                            {/volist}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        {if condition="$cityRes"}
+                                                            <select id="city" name="native_city" class="form-control m-b help-block m-b-none" aria-required="true">
+                                                                <option value="">请选择城市</option>
+                                                                {volist name="cityRes" id="city"}
+                                                                <option {if condition="$rs.native_city eq $city.id" } selected="selected" {/if} value="{$city.id}">{$city.name}</option>
+                                                                {/volist}
+                                                            </select>
+                                                        {else/}
+                                                            <select id="city" name="native_city"  style="display: none;" class="form-control m-b help-block m-b-none" aria-required="true" required=""></select>
+                                                        {/if}
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        {if condition="$countyRes"}
+                                                            <select id="county" name="native_county" class="form-control m-b help-block m-b-none" aria-required="true">
+                                                                <option value="">请选择区/县</option>
+                                                                {volist name="countyRes" id="county"}
+                                                                <option {if condition="$rs.native_county eq $county.id" } selected="selected" {/if} value="{$county.id}">{$county.name}</option>
+                                                                {/volist}
+                                                            </select>
+                                                        {else/}
+                                                            <select id="county" name="native_county" style="display: none;" class="form-control m-b help-block m-b-none" aria-required="true"></select>
+                                                        {/if}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane" id="tab-2">
+
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-1 control-label">培训记录证书：</label>
+                                                        <div class="col-sm-11">
+                                                            <script id="training_info" name="training_info" type="text/plain">{$training.training_info}</script>
+                                                        </div>
+                                                    </div>
+
+
+                                            </div>
+
+                                            <div class="tab-pane" id="tab-3">
+                                                {volist name="service_evaluation" id="services"}
+                                                <div server_id="{$services.id}" class="form-group">
+                                                    <label class="col-sm-1 control-label">
+                                                        <a onclick="delServicesRow(this);" href="#" style="margin-right: 10px"> [ - ] </a> 评价内容
+                                                    </label>
+                                                    <div class="col-sm-11">
+                                                        <input  name="content[]" value="{$services.content}" type="text" class="form-control" aria-required="true">
+                                                    </div>
+                                                    <div style="padding-top: 45px">
+                                                        <label class="col-sm-1 control-label">奖惩记录</label>
+                                                        <div class="col-sm-11">
+                                                            <input  name="sanctions[]" value="{$services.sanctions}" type="text" class="form-control" aria-required="true">
+                                                        </div>
+                                                    </div>
+                                                    <div style="padding-top: 45px">
+                                                        <label class="col-sm-1 control-label">所得分数</label>
+                                                        <div class="col-sm-11">
+                                                            <input  name="score[]" value="{$services.score}" type="text" class="form-control" aria-required="true">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {/volist}
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">
+                                                        <a onclick="addrow(this);" href="#" style="margin-right: 10px"> [ + ] </a>
+                                                        评价内容
+                                                    </label>
+                                                    <div class="col-sm-11">
+                                                        <input  name="content[]" type="text" class="form-control" aria-required="true">
+                                                    </div>
+                                                    <div style="padding-top: 45px">
+                                                        <label class="col-sm-1 control-label">奖惩记录</label>
+                                                        <div class="col-sm-11">
+                                                            <input  name="sanctions[]" type="text" class="form-control" aria-required="true">
+                                                        </div>
+                                                    </div>
+                                                    <div style="padding-top: 45px">
+                                                        <label class="col-sm-1 control-label">所得分数</label>
+                                                        <div class="col-sm-11">
+                                                            <input  name="score[]" type="text" class="form-control" aria-required="true">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 col-sm-offset-1">
+                                                <button class="btn btn-primary" type="submit" >提交</button>
+                                                <button style="margin-left: 15px;" class="btn btn-default" type="reset" >重置</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 自定义js -->
+<script src="__ADMIN__/js/content.js?v=1.0.0"></script>
+
+<!-- jQuery Validation plugin javascript-->
+<script src="__ADMIN__/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="__ADMIN__/js/plugins/validate/messages_zh.min.js"></script>
+
+<script src="__ADMIN__/js/demo/form-validate-demo.js"></script>
+
+<!-- layer -->
+<script src="__PLUS__/layer/layer.js"></script>
+<script src="__PLUS__/js/getaddress.js"></script>
+<script src="__ADMIN__/js/plugins/layer/laydate/laydate.js"></script>
+
+<script>
+
+    var send_url="{$url_root}/admin/staff/getCityInfo";
+    var ismobile=false;
+
+    $('input[name="photo"]').prettyFile();
+
+    //外部js调用
+    laydate({
+        elem: '#time', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });
+
+    /**
+     * 添加一个列表
+     * @param o
+     */
+    function addrow(o){
+        var div=$(o).parent().parent();
+        if($(o).html()==' [ + ] '){
+            var newdiv=div.clone();
+            newdiv.find('a').html(' [ - ] ');
+            div.after(newdiv);
+        }else{
+            div.remove();
+        }
+    }
+
+    /**
+     * AJAX删除培训记录
+     * @param o
+     */
+    function delTrainingRow(o){
+        layer.confirm('您确定要删除该培训记录吗？', {
+            title: false,
+            closeBtn: false,
+            icon: 3,
+            btn: ['确定','取消']
+        }, function(){
+            var div=$(o).parent().parent();
+            var id=div.attr('training_id');
+            $.ajax({
+                type:"post",
+                dataType:"json",
+                data:{id:id},
+                url:"{:url('Staff/ajaxDelTraining')}",
+                success:function(data){
+                    if(data==1){
+                        div.remove();
+                        layer.msg('删除成功', {
+                            icon: 6,
+                            time: 2000, //2s后自动关闭
+                        });
+                    }else if(data==0){
+                        layer.msg('删除失败，刷新再试', {icon: 2});
+                    }
+                }
+            });
+
+        }, function(){
+        });
+    }
+
+    /**
+     * AJAX删除服务评价
+     * @param o
+     */
+    function delServicesRow(o){
+        layer.confirm('您确定要删除该服务评价吗？', {
+            title: false,
+            closeBtn: false,
+            icon: 3,
+            btn: ['确定','取消']
+        }, function(){
+            var div=$(o).parent().parent();
+            var id=div.attr('services_id');
+            $.ajax({
+                type:"post",
+                dataType:"json",
+                data:{id:id},
+                url:"{:url('Staff/ajaxDelServices')}",
+                success:function(data){
+                    if(data==1){
+                        div.remove();
+                        layer.msg('删除成功', {
+                            icon: 6,
+                            time: 2000, //2s后自动关闭
+                        });
+                    }else if(data==0){
+                        layer.msg('删除失败，刷新再试', {icon: 2});
+                    }
+                }
+            });
+
+        }, function(){
+        });
+    }
+
+</script>
+<script type="text/javascript">
+    var ue = UE.getEditor('training_info',{initialFrameHeight:400});
+    toolbars: [
+        ['fullscreen', 'source', 'undo', 'redo'],
+        ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
+    ]
+</script>
+
+</body>
+
+</html>

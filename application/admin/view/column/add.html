@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>添加部门</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="__ADMIN__/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__ADMIN__/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="__ADMIN__/css/animate.css" rel="stylesheet">
+    <link href="__ADMIN__/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="__ADMIN__/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <!--uploadify文件引入CSS-->
+   <!-- <link rel="stylesheet" type="text/css" href="__PLUS__/uploadify/uploadify.css" />-->
+</head>
+
+<body class="gray-bg">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row m-t-sm">
+                        <div class="col-sm-12">
+                            <div class="panel blank-panel">
+                                <div class="panel-heading">
+                                    <div class="panel-options">
+
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <form class="form-horizontal m-t" id="commentForm" method="post" action="" enctype="multipart/form-data">
+
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">所属模型</label>
+                                                    <div class="col-sm-11">
+                                                        <select class="form-control m-b" required="" name="modelid">
+                                                            {volist name="model" id="val"}
+                                                            <option value="{$val.id}">{$val.model_name}</option>
+                                                            {/volist}
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">上级部门</label>
+                                                    <div class="col-sm-11">
+                                                        <select class="form-control m-b" required="" name="pid">
+                                                            <option value="0">顶级部门</option>
+
+                                                            {volist name="column" id="val"}
+                                                            <option {if condition="$id eq $val.id"} selected="selected" {/if} value="{$val.id}"><?php echo str_repeat(' ∷ ',$val['level']*1);  ?>{$val.typename}</option>
+                                                            {/volist}
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">部门名称</label>
+                                                    <div class="col-sm-11">
+                                                        <input  name="typename" minlength="1" maxlength="20" type="text" class="form-control " required="" aria-required="true">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3 col-sm-offset-1">
+                                                <button class="btn btn-primary" type="submit" >提交</button>
+                                                <button style="margin-left: 15px;" class="btn btn-default" type="reset" >重置</button>
+                                                <a style="margin-left: 15px;" class="btn btn-info" href="{:url('add')}">刷新</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="__ADMIN__/js/jquery.min.js?v=2.1.4"></script>
+<script src="__ADMIN__/js/bootstrap.min.js?v=3.3.6"></script>
+<!-- 自定义js -->
+<script src="__ADMIN__/js/content.js?v=1.0.0"></script>
+
+<!-- jQuery Validation plugin javascript-->
+<script src="__ADMIN__/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="__ADMIN__/js/plugins/validate/messages_zh.min.js"></script>
+
+<script src="__ADMIN__/js/demo/form-validate-demo.js"></script>
+
+
+<!--百度编辑器-->
+<!-- 配置文件 -->
+<script type="text/javascript" src="__PLUS__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PLUS__/ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('container',{initialFrameHeight:400});
+    toolbars: [
+        ['fullscreen', 'source', 'undo', 'redo'],
+        ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
+    ]
+</script>
+<!--uploadify文件引入js-->
+<script type="text/javascript" src="__PLUS__/uploadify/jquery.uploadify.min.js"></script>
+<!-- layer -->
+<script src="__PLUS__/layer/layer.js"></script>
+<script type="text/javascript">
+    //控制点击链接处是否显示link外部链接
+    $(document).ready(function(){
+        $("#hide").click(function(){
+            $("#link_div").hide();
+        });
+        $("#hides").click(function(){
+            $("#link_div").hide();
+        });
+        $("#show").click(function(){
+            $("#link_div").show();
+        });
+
+    });
+
+    //上传文件
+    $(function() {
+        $('#file_upload').uploadify({
+            'swf'      : '__PLUS__/uploadify/uploadify.swf',
+            'uploader' : '{:url("Column/upimg")}',
+            'progressData':'speed',
+            'buttonText':'上传文件',
+            'buttonClass':'fa fa-upload btn-sm btn btn-danger ',
+            //允许上传的文件
+            'fileTpyeDesc':'Image Files',
+            //设定发送数据的name值
+            'fileObjName':'img',
+            'onUploadSuccess':function(file,data,response){
+                $("input[name='img']").val(data);
+                var column="__UPLOADS__/column/"+data;
+                var columnSrc="<img src='"+column+"' height='100' width='100'>";
+                //显示img_div
+                $("#img_div").show();
+                $("#column_img").html(columnSrc);
+            }
+        });
+        $("#file_upload-button").removeAttr('style');
+    });
+    //撤销图片
+    function delimg() {
+        /*var column_img=$("#column_img").find("img");
+        var imgSrc=column_img.attr("src");*/
+        var imgSrc=$("input[name='img']").val();
+        if(!imgSrc){
+            layer.msg(' 请先上传图片！', {icon: 2});
+            return false;
+        }
+        layer.confirm('您确定要撤销图片吗？', {
+            btn: ['确定','取消'],//按钮
+            icon: 3,
+            title:'点击确定将会删除服务器图片！',//设置标题，为0则关闭标题
+            /*shadeClose: false,//开启遮罩层
+            area: ['320px', '160px'], //宽高*/
+            anim: 4,
+        }, function(){
+            $("#img_div").hide();
+            $("input[name='img']").val('');
+            $.ajax({
+                type:"post",
+                dataType:"json",
+                data:{imgSrc:imgSrc},
+                url:"{:url('Column/delimg')}",
+                success:function(data){
+                    if(data){
+                        layer.msg(' 撤销图片成功！', {icon: 6});
+                    }else{
+                        layer.msg(' 撤销图片失败！', {icon: 2});
+                    }
+                }
+            });
+        }, function(){
+            layer.msg(' 您取消了当前操作！', {icon: 5});
+        });
+    }
+
+    //点击添加子栏目的时候获取上级选定模型及模版
+    function changeTemplate(){
+        var columnPid=$("select[name=pid]").find("option:selected").val();
+        if(columnPid!=0){
+            $.ajax({
+                type:"post",
+                dataType:"json",
+                data:{columnPid:columnPid},
+                url:"{:url('Column/columnInfo')}",
+                success:function(data){
+                    $("input[name=index_template]").val(data.index_template);
+                    $("input[name=list_template]").val(data.list_template);
+                    $("input[name=content_template]").val(data.content_template);
+                    $("select[name=modelid]").val(data.modelid);
+                }
+            });
+        }
+    }
+    if($("select[name=pid]").find("option:selected").val() !=0){
+        changeTemplate();
+    }
+    $("select[name=pid]").change(function(){
+        changeTemplate();
+    });
+
+
+
+</script>
+
+
+</body>
+
+</html>

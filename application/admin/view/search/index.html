@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>企业档案信息查询-{$web_title}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="__PLUS__/search/css/common.css">
+    <link rel="stylesheet" type="text/css" href="__PLUS__/search/css/style1.css">
+    <script src="__PLUS__/search/js/jquery-1.11.0.min.js"></script>
+    <script src="__PLUS__/search/js/public.js"></script>
+</head>
+<style>
+    .flexbox{
+        width: 10%;
+        max-width: 30px;
+        height: 30px;
+        background:#cccc77;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        text-align: center;
+        padding-left: 5px;
+        float: left;
+    }
+    .flexbox img{
+        width: 100%;
+        max-width: 24px;
+        height: 24px;
+        align-items: center;
+        text-align: center;
+        padding: auto;
+    }
+    .search{
+        border: 1px solid #cacc6d;
+        height: 30px;
+        width: 67%;
+        margin:0 2%;
+        border-radius: 10px;
+        padding: 0 15px;
+    }
+    .btn{
+        width: 15%;
+        height: 30px;
+        border-radius: 10px;
+        background-color: #cacc6d;
+        color: #fff;
+    }
+</style>
+<body style="background-color: rgba(235,235,235,0.7)">
+
+<div class="projectd_f">
+    <div class="projectd_f_in">
+        <img style="max-width: 360px;max-height: 75px" src="__UPLOADS__/conf/{$logo}">
+    </div>
+</div>
+
+<div class="neirbg_f">
+    <div class="neirbg_f_in">
+
+    </div>
+</div>
+
+
+<!--两个选择项-->
+<div class="zslgxzx_f">
+    <div class="zslgxzx_f_in">
+        <ul>
+            <li><a style="color: #a7a759" href="{:url('index')}" class="addys_f3">查企业档案</a></li>
+
+            <li><a style="color: #656565" href="{:url('staff')}">查从业人员</a></li>
+        </ul>
+    </div>
+</div>
+<!--显示区域2-->
+<div class="xsiqy_f">
+    <!--包2-->
+    <div class="xsiqy_f_in">
+        <!--查企业档案-->
+        <div class="xsiqy_f_in_1" style="height: 40px">
+            <form action="" method="post">
+                <div class="flexbox">
+                    <img src="__PLUS__/search/images/home.png" height="24px" alt="">
+                </div>
+                <div>
+                    <input class="search" type="search" value="{$keywords}" minlength="2" maxlength="30" required="required" name="keywords" placeholder="企业名称/法人/社会统一信用代码">
+                    <input class="btn" type="submit" value="查 询">
+                </div>
+            </form>
+        </div>
+
+        <div class="xsiqy_f_in_1">
+            <div class="huankdxy_f" style="padding-bottom:0">
+
+            </div>
+        </div>
+    </div>
+</div>
+{if condition="$keywords"}
+<div class="xsiqy_f" style="margin-top: -50px">
+    <div style="max-height: 100px;line-height: 30px;text-align: center;width: 94%;margin: 10px auto">
+        找到<span style="color: #ff0a00"> "{$keywords}" </span>的企业档案记录共<span style="color: #ff0a00"> {$count} </span>条
+    </div>
+</div>
+{/if}
+
+{if condition="$rs"}
+{volist name="rs" id="val"}
+<div class="xsiqy_f" style="margin-top: -50px;height: 45px">
+    <a style="color: #318fcc" href="{:url('enterpriseInfo',array('id'=>$val.id,'keywords'=>$keywords))}">
+    <div style="text-align: center;width: 94%;margin: auto">
+        <div style="float: left;margin-top: 5px">
+            <img src="__PLUS__/search/images/home_a.png" alt="">
+        </div>
+        <div style="display: flex;float: left;margin-top: 13px;font-size: 13px;margin-left: 10px">{$val.name|subtext=16}</div>
+        <div style="float: right;margin-top: 5px">
+            <img src="__PLUS__/search/images/gt.png" alt="">
+        </div>
+    </div>
+    </a>
+</div>
+{/volist}
+{/if}
+<div style="margin-bottom: 120px"></div>
+
+<a class="lijitoubiaocx_f" style="padding-top:15px">
+    {$copyright}</br>
+    联系电话：{$web_tel}
+</a>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>字段列表</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="__ADMIN__/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__ADMIN__/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__ADMIN__/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="__ADMIN__/css/animate.css" rel="stylesheet">
+    <link href="__ADMIN__/css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <!-- Example Events -->
+                        <form action="{:url('Model/delall')}" method="post">
+                            <div class="example-wrap">
+                                <h4 class="example-title">字段列表 <a class="btn btn-outline btn-rounded btn-sm btn-info"  href="{:url('lists')}">刷新</a></h4>
+                                <div class="example">
+                                    <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                                        <a class="btn btn-primary" href="{:url('ModelFields/add')}" style="color:#fff;"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 添加字段</a>
+
+                                    </div>
+                                    <table class="table table-bordered" >
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5%">ID</th>
+                                                <th style="width: 15%">字段中文名称</th>
+                                                <th style="width: 15%">字段英文名称</th>
+                                                <th style="width: 10%">字段类型</th>
+                                                <th style="width: 30%">字段默认值</th>
+                                                <th style="width: 10%">所属模型</th>
+                                                <th style="width: 15%">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {volist name='modelfields' id='value' }
+                                            <tr >
+                                                <td>{$value.id}</td>
+                                                <td>{$value.field_cname}</td>
+                                                <td>{$value.field_ename}</td>
+
+                                                <td>
+                                                    {switch $value.field_type}
+                                                        {case 1} 文本框 {/case}
+                                                        {case 2} 单选按钮 {/case}
+                                                        {case 3} 复选框 {/case}
+                                                        {case 4} 下拉菜单 {/case}
+                                                        {case 5} 文本域 {/case}
+                                                        {case 6} 附件 {/case}
+                                                        {case 7} 浮点 {/case}
+                                                        {case 8} 整型 {/case}
+                                                        {case 9} 长文本 {/case}
+                                                    {/switch}
+                                                </td>
+                                                <td>{if condition="$value.field_values eq ''"}未设置{else /}{$value.field_values}{/if}</td>
+                                                <td>{$value.model_name}</td>
+                                                <td>
+                                                    <a class="btn btn-outline btn-rounded btn-primary" href="{:url('edit',array('id'=>$value['id']))}">编辑</a>
+                                                    <a class="btn btn-outline btn-rounded btn-danger" style="margin-left: 3%" modelFiledsid="{$value.id}"  onclick="dele(this);">删除</a>
+                                                </td>
+                                            </tr>
+                                        {/volist}
+                                        </tbody>
+                                    </table>
+                                    <div align="right">{$modelfields->render()}</div>
+                                </div>
+
+                            </div>
+                        </form>
+                        <!-- End Example Events -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+
+    <!-- 全局js -->
+   <!-- <script type="text/javascript" src="http://demo.jb51.net/jslib/jquery/jquery1.3.2.js"></script>-->
+    <script src="__ADMIN__/js/jquery.min.js?v=2.1.4"></script>
+
+    <script src="__ADMIN__/js/bootstrap.min.js?v=3.3.6"></script>
+    <!-- 自定义js -->
+    <script src="__ADMIN__/js/content.js?v=1.0.0"></script>
+    <!-- Bootstrap table -->
+    <script src="__ADMIN__/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="__ADMIN__/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="__ADMIN__/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <!-- Peity -->
+    <script src="__ADMIN__/js/demo/bootstrap-table-demo.js"></script>
+
+    <!-- layer -->
+    <script src="__PLUS__/layer/layer.js"></script>
+
+    <script type="text/javascript">
+        //删除
+        function dele(object){
+            var modelFiledsid=$(object).attr("modelFiledsid");
+            layer.confirm('您确定要删除该字段吗？', {
+                title: false,
+                closeBtn: false,
+                icon: 3,
+                btn: ['确定','取消']
+            }, function(){
+                $.ajax({
+                    type:"post",
+                    dataType:"json",
+                    data:{modelFiledsid:modelFiledsid},
+                    url:"{:url('Model_fields/del')}",
+                    success:function(data){
+                        if(data){
+                            layer.msg('删除字段成功', {
+                                icon: 6,
+                                time: 2000, //2s后自动关闭
+                            },function(){
+                                window.location.reload();
+                            });
+                        }else{
+                            layer.msg('删除字段失败，刷新再试', {icon: 2});
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>员工列表</title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__ADMIN__/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__ADMIN__/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__ADMIN__/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="__ADMIN__/css/animate.css" rel="stylesheet">
+    <link href="__ADMIN__/css/style.css?v=4.1.0" rel="stylesheet">
+
+    
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <!-- Example Events -->
+                        <div class="example-wrap">
+                            <h4 class="example-title">员工列表 <a  href="{:url('lists')}"><button class="btn btn-outline btn-rounded btn-sm btn-info">刷新</button></a></h4>
+                            <div class="example">
+
+                                <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                                    <a class="btn btn-primary" href="{:url('add')}" style="color:#fff;"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 添加员工</a>
+                                </div>
+
+                                <table id="exampleTableEvents" data-height="600" data-mobile-responsive="true">
+                                    <thead>
+                                        <tr>
+                                            <th data-visible="false">编号</th>
+                                            {volist name="thName" id="th"}
+                                            <th>{$th.field_cname}</th>
+                                            {/volist}
+                                            <th>入职日期</th>
+
+                                            <th>操作</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="artRes" id="td"}
+                                    <tr>
+                                        <td>{$td.aid}</td>
+                                        {volist name="thName" id="th"}
+                                        <td>{$td[$th.field_ename]}</td>
+                                        {/volist}
+                                        <td>{$td.ruzhidate}</td>
+
+                                        <td> <a class="btn btn-outline btn-rounded btn-primary" href="{:url('edit',array('aid'=>$td.aid))}">编辑</a>
+                                            <a class="btn btn-outline btn-rounded btn-danger" style="margin-left: 3%" aid="{$td.aid}"  onclick="dele(this);">删除</a>
+                                        </td>
+
+
+                                    </tr>
+                                    {/volist}
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <!-- End Example Events -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+
+    <!-- 全局js -->
+    <script src="__ADMIN__/js/jquery.min.js?v=2.1.4"></script>
+    <script src="__ADMIN__/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="__ADMIN__/js/content.js?v=1.0.0"></script>
+
+
+    <!-- Bootstrap table -->
+    <script src="__ADMIN__/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="__ADMIN__/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="__ADMIN__/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <!-- Peity -->
+    <script src="__ADMIN__/js/demo/bootstrap-table-demo.js"></script>
+    <!-- layer -->
+    <script src="__ADMIN__/layer/layer.js"></script>
+    <script type="text/javascript">
+    function dele(obj) {
+        layer.confirm('您确定要删除该员工信息吗？', {
+            title: false,
+            closeBtn: false,
+            icon: 3,
+            btn: ['确定','取消']
+        }, function(index){
+            var aid=$(obj).attr('aid');
+            $.ajax({
+                type:"post",
+                dataType:"json",
+                data:{aid:aid},
+                url:"{:url('Content/del')}",
+                success:function(data){
+                    if(data==1){
+                        layer.msg(' 删除员工信息成功！', {icon: 6},function(){
+                            window.location.href="{:url('Content/lists')}";
+                        });
+                    }else{
+                        layer.msg(' 删除员工信息失败！', {icon: 2});
+                    }
+                }
+            });
+            layer.close(index);
+        });
+    }
+    </script>
+</body>
+
+</html>

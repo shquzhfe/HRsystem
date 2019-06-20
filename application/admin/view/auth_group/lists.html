@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>用户组列表</title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__ADMIN__/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__ADMIN__/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__ADMIN__/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="__ADMIN__/css/animate.css" rel="stylesheet">
+    <link href="__ADMIN__/css/style.css?v=4.1.0" rel="stylesheet">
+
+    
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <!-- Panel Other -->
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <!-- Example Events -->
+                        <div class="example-wrap">
+                            <h4 class="example-title">用户组列表 <a  href="{:url('lists')}"><button class="btn btn-outline btn-rounded btn-sm btn-info">刷新</button></a></h4>
+                            <div class="example">
+
+                                <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                                    <a class="btn btn-primary" href="{:url('add')}" style="color:#fff;"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 添加用户组</a>
+
+                                </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr >
+                                            <th >ID</th>
+                                            <th >用户组名</th>
+
+                                            <th >是否开启</th>
+                                            <th >操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="groupRes" id="val"}
+                                    <tr>
+                                        <td>{$val.id}</td>
+                                        <td ><span style="font-weight: bold; color: #19A566">{$val.title}</span></td>
+                                        <td><a  val_id="{$val.id}"  onclick="status(this);"  {if condition='$val.status eq 1'} class="btn btn-primary" {else/} class="btn btn-default" {/if}>{if condition='$val.status eq 1'}开启{else /}关闭{/if}</a></td>
+                                        <td>
+                                            <a  href="{:url('power',array('id'=>$val['id']))} " >
+                                                <button class="btn btn-outline btn-rounded btn-success">权限</button>
+                                            </a>
+                                            <a style="margin-left: 3%"  href="{:url('edit',array('id'=>$val['id']))} " >
+                                                <button class="btn btn-outline btn-rounded btn-primary">编辑</button>
+                                            </a>
+                                            <a  style="margin-left: 3%" val_id="{$val.id}"  onclick="dele(this);" >
+                                                <button class="btn btn-outline btn-rounded btn-danger">删除</button>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                    {/volist}
+
+                                    </tbody>
+
+                                </table>
+                                <div style="text-align: right; ">{$groupRes->render()}</div>
+                            </div>
+                        </div>
+                        <!-- End Example Events -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Panel Other -->
+    </div>
+
+    <!-- 全局js -->
+    <script src="__ADMIN__/js/jquery.min.js?v=2.1.4"></script>
+    <script src="__ADMIN__/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="__ADMIN__/js/content.js?v=1.0.0"></script>
+
+
+    <!-- Bootstrap table -->
+    <script src="__ADMIN__/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="__ADMIN__/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="__ADMIN__/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <!-- Peity -->
+    <script src="__ADMIN__/js/demo/bootstrap-table-demo.js"></script>
+    <!-- layer -->
+    <script src="__PLUS__/layer/layer.js"></script>
+    <script type="text/javascript">
+        //关闭与开启
+        function status(obj){
+            var id=$(obj).attr("val_id");
+            $.ajax({
+                type:"post",
+                dataType:"json",
+                data:{id:id},
+                url:"{:url('AuthGroup/status')}",
+                success:function(data){
+                    if(data==0){
+                        $(obj).attr("class","btn btn-default");
+                        $(obj).text("关闭");
+                    }else if(data==1){
+                        $(obj).attr("class","btn btn-primary");
+                        $(obj).text("开启");
+                    }else{
+                        layer.msg(' 非法访问！', {icon: 2});
+                    }
+                }
+            });
+
+        }
+
+        function dele(object){
+            var id=$(object).attr("val_id");
+            layer.confirm('您确定要删除该条记录吗？', {
+                title: false,
+                closeBtn: false,
+                icon: 3,
+                btn: ['确定','取消']
+            }, function(){
+                $.ajax({
+                    type:"post",
+                    dataType:"json",
+                    data:{id:id},
+                    url:"{:url('AuthGroup/del')}",
+                    success:function(data){
+                        if(data==1){
+                            layer.msg('删除记录成功', {
+                                icon: 6,
+                                time: 2000, //2s后自动关闭
+                            },function(){
+                                /*window.location.href="{:url('Conf/lists')}";*/
+                                /*location.href="{:url('AuthGroup/lists')}";*/
+                                window.location.reload();
+                            });
+                        }else if(data==0){
+                            layer.msg('删除记录失败，刷新再试', {icon: 2});
+                        }
+                    }
+                });
+            }, function(){
+            });
+        }
+    </script>
+</body>
+
+</html>

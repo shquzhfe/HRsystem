@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>爱之情商城系统后台登录</title>
+<!-- Custom Theme files -->
+<link href="__ADMIN__/login/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<!-- Custom Theme files -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<meta name="keywords" content="后台登录" />
+</head>
+<body>
+<!--header start here-->
+<div class="login-form">
+			<div class="top-login">
+				<span><img src="__ADMIN__/login/images/group.png" alt=""/></span>
+			</div>
+			<h1>登录</h1>
+			<div class="login-top">
+			<form action="" method="post">
+				<div class="login-ic">
+					<i ></i>
+					<input style="color: #fff" required type="text"  placeholder="登录账户"  name="uname" />
+					<div class="clear"> </div>
+				</div>
+				<div class="login-ic" >
+					<i class="icon"></i>
+					<input style="color: #fff" required type="password"  placeholder="登录密码"  name="password" />
+					<div class="clear"> </div>
+				</div>
+
+				<div class="login-ic" >
+					<i class="icon"></i>
+					<input required style="width: 40%;float: left;color: #fff"  type="text" placeholder="验证码"  name="code" />
+					<img style="float: left; height: 42px; cursor: pointer" src="{:captcha_src()}" onclick="this.src='{:captcha_src()}?'+Math.random()">
+					<div class="clear"> </div>
+				</div>
+			
+				<div class="log-bwn">
+					<input type="submit"  value="登 录" >
+				</div>
+				</form>
+			</div>
+			<p class="copy">© 2017 IZQSHOPS</p>
+</div>		
+
+</body>
+</html>

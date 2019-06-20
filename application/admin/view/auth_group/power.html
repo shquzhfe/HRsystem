@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>分配权限</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="__ADMIN__/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__ADMIN__/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__ADMIN__/css/animate.css" rel="stylesheet">
+    <link href="__ADMIN__/css/style.css?v=4.1.0" rel="stylesheet">
+
+    <link href="__ADMIN__/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <h5>分配权限 <a  href="{:url('lists')}"><button class="btn btn-outline btn-rounded btn-sm btn-info">返回列表</button></a></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t" id="commentForm" method="post" action="">
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">用户组名：</label>
+                                <div class="col-sm-11">
+                                    <input    type="text" name="title" value="{$groupRes.title}" class="form-control" required="" aria-required="true">
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">分配权限</label>
+                                <div class="col-sm-11">
+                                    <!--权限分配start-->
+                                        <div class="panel panel-info" >
+                                            <div class="panel-heading " >
+
+                                                   <input  id="chkAll" onclick="CheckAll(this.form)" value="全选" type="checkbox">
+                                                   <span style="font-weight: bold">【全 选】</span>
+
+                                            </div>
+                                            <div class="panel-body">
+                                            <table>
+                                                {foreach name="data" item="vo"}
+                                                <tr>
+                                                    <td style="padding-left: 20px;font-weight: bold;">
+                                                        <label>
+                                                        <div  class="checkbox checkbox-primary checkbox-inline">
+                                                        <input class="checkbox-parent" name="rules[]" id="{$vo.id}" value="{$vo.id}" dataid="id-{$vo.id}" type="checkbox" <?php if(in_array($vo['id'],$rules)){ echo 'checked="checked"'; } ?>>
+                                                        <label style="padding-left: 5px;">{$vo.title}</label>
+                                                        </div>
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                                    {foreach name="vo['children']" item="vo2"}
+                                                    <tr>
+                                                        <td style="padding-left: 60px;">
+                                                            <label>
+                                                                <div  class="checkbox checkbox-info checkbox-inline">
+                                                                <input class="checkbox-parent checkbox-child" name="rules[]" id="{$vo2.id}" value="{$vo2.id}" dataid="id-{$vo.id}-{$vo2.id}"  type="checkbox" <?php if(in_array($vo2['id'],$rules)){ echo 'checked="checked"'; } ?>>
+                                                                <label style="padding-left: 5px;">{$vo2.title}</label>
+                                                                </div>
+                                                            </label>
+
+                                                        </td>
+                                                    </tr>
+                                                <!--如果有三级才展示tr-->
+                                                        {if condition="$vo2['children']"}
+                                                        <tr>
+                                                            <td  style="padding-left: 100px;">
+                                                                {foreach name="vo2['children']" item="vo3"}
+                                                                <label>
+                                                                    <div  class="checkbox checkbox-success checkbox-inline">
+                                                                    <input  class="checkbox-child " name="rules[]" id="{$vo3.id}" value="{$vo3.id}" dataid="id-{$vo.id}-{$vo2.id}-{$vo3.id}" type="checkbox" <?php if(in_array($vo3['id'],$rules)){ echo 'checked="checked"'; } ?>>
+                                                                    <label style="padding-right: 25px; padding-left: 5px;"> {$vo3.title} </label>
+                                                                    </div>
+                                                                </label>
+                                                                {/foreach}
+                                                            </td>
+                                                        </tr>
+                                                        {/if}
+                                                    {/foreach}
+                                                {/foreach}
+                                            </table>
+                                            </div>
+                                        </div>
+                                    <!--权限分配end-->
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-3 col-sm-offset-1">
+                                    <button class="btn btn-primary" type="submit" >提交</button>
+                                    <button style="margin-left: 15px;" class="btn btn-default" type="reset" >重置</button>
+                                    <a style="margin-left: 15px;" class="btn btn-info" href="{:url('lists')}">返回</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- 全局js -->
+    <script src="__ADMIN__/js/jquery.min.js?v=2.1.4"></script>
+    <script src="__ADMIN__/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="__ADMIN__/js/content.js?v=1.0.0"></script>
+    <!-- jQuery Validation plugin javascript-->
+    <script src="__ADMIN__/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="__ADMIN__/js/plugins/validate/messages_zh.min.js"></script>
+    <script src="__ADMIN__/js/demo/form-validate-demo.js"></script>
+
+    <script type="text/javascript">
+        /* 权限配置 */
+        $(function () {
+            //动态选择框，上下级选中状态变化
+            $('input.checkbox-parent').on('change', function () {
+                var dataid = $(this).attr("dataid");
+                $('input[dataid^=' + dataid + ']').prop('checked', $(this).is(':checked'));
+            });
+            $('input.checkbox-child').on('change', function () {
+                var dataid = $(this).attr("dataid");
+                dataid = dataid.substring(0, dataid.lastIndexOf("-"));
+                var parent = $('input[dataid=' + dataid + ']');
+                if ($(this).is(':checked')) {
+                    parent.prop('checked', true);
+                    //循环到顶级
+                    while (dataid.lastIndexOf("-") != 2) {
+                        dataid = dataid.substring(0, dataid.lastIndexOf("-"));
+                        parent = $('input[dataid=' + dataid + ']');
+                        parent.prop('checked', true);
+                    }
+                } else {
+                    //父级
+                    if ($('input[dataid^=' + dataid + '-]:checked').length == 0) {
+                        parent.prop('checked', false);
+                        //循环到顶级
+                        while (dataid.lastIndexOf("-") != 2) {
+                            dataid = dataid.substring(0, dataid.lastIndexOf("-"));
+                            parent = $('input[dataid=' + dataid + ']');
+                            if ($('input[dataid^=' + dataid + '-]:checked').length == 0) {
+                                parent.prop('checked', false);
+                            }
+                        }
+                    }
+                }
+            });
+        });
+        //全选
+        function CheckAll(form){
+            for(var i=0;i<form.elements.length;i++){
+                var e=form.elements[i];
+                if(e.Name!='chkAll' && e.disabled==false){
+                    e.checked=form.chkAll.checked;
+                }
+            }
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
